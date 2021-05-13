@@ -47,6 +47,7 @@
 
 				<section>
 					<h1>The openEQUELLA REST APIs are incredible</h1>
+					<p>They're comprehensive. Almost anything you can do in oE, you can accomplish via the APIs, which is why such great third-party tools exist. The documentation (apidocs.do) outlines everything, including each route's options, and has built-in testing tools.</p>
 				</section>
 
 				<section>
@@ -62,7 +63,24 @@
 				</section>
 
 				<section>
+					<h1>Miscellaneous Shortcuts</h1>
+					<pre><code class="shell" data-trim>
+$ eq launch # open the admin console launcher
+$ eq login # open the login page in a web browser
+$ eq settings diagnostics # open different settings page in browser
+$ eq apidocs # open the API documentation page
+					</code></pre>
+				</section>
+
+				<section>
 					<h1>Limitations, warnings, mysteries</h1>
+					<ul>
+						<li>I'm writing tests but there are few right now</li>
+						<li>Never locks resources before modification (but you could manually)</li>
+						<li>Doesn't work with pipes (e.g. piping JSON to `eq` create an object)</li>
+						<li>Unable to download complete items</li>
+						<li>Rare blind spots in the APIs, many more in `eq`</li>
+					</ul>
 				</section>
 
 				<section>
