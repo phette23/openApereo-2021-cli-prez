@@ -28,9 +28,20 @@
 					<h1>About CCA</h1>
 					<ul>
 						<li>Small (≈1800 FTE) art & design schoool in the California Bay Area</li>
-						<li>Located on <a href="https://www.cca.edu/about/indigenous-land-acknowledgement/">the unceded unceded territories of Chochenyo and Ramaytush Ohlone peoples</a></li>
+						<li>Located on <a href="https://www.cca.edu/about/indigenous-land-acknowledgement/">the unceded territories of Chochenyo and Ramaytush Ohlone peoples</a></li>
 						<li>Long-time (since 2012) EQUELLA users, instance contains over 75,000 items representing everything from student art works to syllabi to archival documents</li>
 					</ul>
+				</section>
+
+				<section>
+					<h1>Quick Background</h1>
+					<p><a href="https://www.npmjs.com/package/equella-cli">equella-cli</a> or <code>eq</code> is a set of command-line shortcuts written in node.js for HTTP requests to the REST API. It uses a configured .equellarc file with at least an OAuth token and "root" URL of an oE instance.</p>
+					<pre><code>$ npm install --global equella-cli # installation</code></pre>
+					<pre><code>// .equellarc
+{
+  "root": "https://openequella.school.edu",
+  "token": "1234abcd-4321-dcba-1234abcd4321"
+}</code></pre>
 				</section>
 
 				<section>
@@ -38,7 +49,7 @@
 				</section>
 
 				<section>
-					<h1>Motivations behind eq</h1>
+					<h1>Motivations behind <code>eq</code></h1>
 				</section>
 
 				<section>
@@ -51,7 +62,11 @@
 				</section>
 
 				<section>
-					<h1>eq & jq, best friends for life</h1>
+					<h1><code>eq</code> & <code>jq</code>, best friends for life</h1>
+				</section>
+
+				<section>
+					<h1><code>fx</code> is great too</h1>
 				</section>
 
 				<section>
@@ -65,21 +80,21 @@
 				<section>
 					<h1>Miscellaneous Shortcuts</h1>
 					<pre><code class="shell" data-trim>
-$ eq launch # open the admin console launcher
-$ eq login # open the login page in a web browser
-$ eq settings diagnostics # open different settings page in browser
+$ eq launch # run the admin console launcher script
+$ eq login # fill in login page in a web browser
+$ eq settings diagnostics # open user diagnostics
 $ eq apidocs # open the API documentation page
 					</code></pre>
 				</section>
 
 				<section>
-					<h1>Limitations, warnings, mysteries</h1>
+					<h1>Limitations, warnings</h1>
 					<ul>
 						<li>I'm writing tests but there are few right now</li>
 						<li>Never locks resources before modification (but you could manually)</li>
-						<li>Doesn't work with pipes (e.g. piping JSON to `eq` create an object)</li>
+						<li>Doesn't work with pipes (e.g. piping JSON to <code>eq</code> to create an object)</li>
 						<li>Unable to download complete items</li>
-						<li>Rare blind spots in the APIs, many more in `eq`</li>
+						<li>Rare blind spots in the APIs, many more in <code>eq</code></li>
 					</ul>
 				</section>
 
