@@ -26,6 +26,7 @@
 
 				<section>
 					<h1>About CCA</h1>
+
 					<ul>
 						<li>Small (≈1800 FTE) art & design schoool in the California Bay Area</li>
 						<li>Located on <a href="https://www.cca.edu/about/indigenous-land-acknowledgement/">the unceded territories of Chochenyo and Ramaytush Ohlone peoples</a></li>
@@ -35,13 +36,17 @@
 
 				<section>
 					<h1>Quick Background</h1>
+
 					<p><a href="https://www.npmjs.com/package/equella-cli">equella-cli</a> or <code>eq</code> is a set of command-line shortcuts written in node.js for HTTP requests to the REST API. It uses a configured .equellarc file with at least an OAuth token and "root" URL of an oE instance.</p>
+
 					<pre><code>$ npm install --global equella-cli # installation</code></pre>
-					<pre><code>// .equellarc
-{
-  "root": "https://openequella.school.edu",
-  "token": "1234abcd-4321-dcba-1234abcd4321"
-}</code></pre>
+					<pre><code data-trim>
+						// .equellarc
+						{
+						  "root": "https://openequella.school.edu",
+						  "token": "1234abcd-4321-dcba-1234abcd4321"
+						}
+					</code></pre>
 				</section>
 
 				<section>
@@ -50,15 +55,38 @@
 
 				<section>
 					<h1>Motivations behind <code>eq</code></h1>
+
+					<ul>
+						<li>Learn more about openEQUELLA</li>
+						<li>Learn more about node.js & writing a CLI</li>
+						<li>I prefer to spend as much time in my terminal as possible</li>
+					</ul>
+
+					<aside class="notes">
+						This isn't a trite observation about the command-line; while I'm certain there are good systems people who use the command line rarely or at all, to me it's the most efficient way to accomplish most tasks because of the way it facilitates automation. Because any suite of actions can be composed into a larger script, which can be written to be adapt to different contexts, you can work so much more efficiently if you can frame your tasks into commands.
+					</aside>
 				</section>
 
 				<section>
 					<h1>Text is the universal interface</h1>
+
+					<aside class="notes">
+						Elaborating on that last point, one of the beautiful things of the command-line to me that you can stitch together complicated routines from a series of relatively simple pieces of software. `eq` is a good example of one of these pieces of software, as fundamentally it does very little: it abstracts over the REST APIs a little bit and pretty prints the JSON you receive back from them. It is nothing more than syntactic sugar.
+
+						...ramble about UNIX philosophy here...
+
+						The CLI is littered with wonderful tools that adhere to another component of the UNIX philosophy, "do one thing and do it well."
+					</aside>
 				</section>
 
 				<section>
-					<h1>The openEQUELLA REST APIs are incredible</h1>
-					<p>They're comprehensive. Almost anything you can do in oE, you can accomplish via the APIs, which is why such great third-party tools exist. The documentation (apidocs.do) outlines everything, including each route's options, and has built-in testing tools.</p>
+					<h1>The openEQUELLA APIs</h1>
+
+					<ul>
+						<li>Comprehensive, you can do almost anything</li>
+						<li>Already support third-party tools (EBI)</li>
+						<li>Great documentation & built-in testing at apidocs.do</li>
+					</ul>
 				</section>
 
 				<section>
@@ -67,6 +95,8 @@
 
 				<section>
 					<h1><code>fx</code> is great too</h1>
+
+					<!-- @TODO record a GIF of this in action? -->
 				</section>
 
 				<section>
@@ -78,21 +108,46 @@
 				</section>
 
 				<section>
+					<h1>Example: items without titles</h1>
+
+					<pre><code data-trim>eq search -l 50 | jq '.results[] | (.links.view, .name)' | ack '^null$' -A 1</code></pre>
+
+					<p>Above: last 50 items. Below: last 1,000 items.</p>
+
+					<pre><code data-trim>
+						$ for $IDX in (seq 0 19)
+						>   eq search --length 50 --start (math $IDX x 50) | \
+						>   jq '.results[] | (.links.view, .name)' | \
+						>   ack '^null$' --after-context 1 | sed '/null/d'
+						> end
+					</code></pre>
+
+					<aside class="notes">
+We have very complex contribution forms which make it hard to fully troubleshoot every possible path through the form that end users might take. Item titles are also not always composed of the same elements, they might contain a work type, course title, creator name, or creator-provided title depending on a number of factors. Sometimes, a contribution goes through and ends up with no title so openEQUELLA shows the item's UUID as its title, which is an eyesore.
+
+openEQUELLA's Manage Resources tool is great at finding items that match particular metadata patterns and then modifying them, but it has a blind spot: you can test for the existence of a metadata node but not its nullity. There's no way to find items without titles. With the REST API, however, we can look at item JSON without a `name` property. This first line will look for items without names within the last fifty contributions. We can loop through items 50 at a time to search our whole instance; the expanded code below checks the last thousand contributions and prints the UUIDs of items without titles.
+
+There is probably a more elegant way to do this but I think it demonstrates how stitching together eq. jq, and existing command-line tools can help with management.
+					</aside>
+				</section>
+
+				<section>
 					<h1>Miscellaneous Shortcuts</h1>
+
 					<pre><code class="shell" data-trim>
 $ eq launch # run the admin console launcher script
 $ eq login # fill in login page in a web browser
 $ eq settings diagnostics # open user diagnostics
-$ eq apidocs # open the API documentation page
+$ eq apidocs # open the API documentation
 					</code></pre>
 				</section>
 
 				<section>
 					<h1>Limitations, warnings</h1>
+
 					<ul>
 						<li>I'm writing tests but there are few right now</li>
 						<li>Never locks resources before modification (but you could manually)</li>
-						<li>Doesn't work with pipes (e.g. piping JSON to <code>eq</code> to create an object)</li>
 						<li>Unable to download complete items</li>
 						<li>Rare blind spots in the APIs, many more in <code>eq</code></li>
 					</ul>
@@ -100,11 +155,13 @@ $ eq apidocs # open the API documentation page
 
 				<section>
 					<h1>¿Questions?</h1>
+
 					<ul>
 						<li>equella-cli on <a href="https://github.com/cca/equella_cli#readme">github</a> and <a href="https://www.npmjs.com/package/equella-cli">npm</a></li>
 						<li><a href="https://openequella.github.io/guides/RestAPIGuide.html">openEQUELLA REST API guide</a> (see apidocs.do on your oE instance)</li>
 						<li><a href="https://homepage.cs.uri.edu/~thenry/resources/unix_art/ch01s06.html">UNIX philosophy</a></li>
 					</ul>
+
 					<p>Thank you for having me! I can be reached at phette23 on
 					most platforms (Twitter, Gmail, GitHub).</p>
 				</section>
