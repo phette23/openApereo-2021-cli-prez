@@ -71,11 +71,13 @@
 					<ul>
 						<li>Learn more about openEQUELLA</li>
 						<li>Learn more about node.js & writing a CLI</li>
-						<li>I prefer to spend as much time in my terminal as possible</li>
+						<li>I'm happy when I'm in my terminal</li>
 					</ul>
 
 					<aside class="notes">
-						This isn't a trite observation about the command-line; while I'm certain there are good systems people who use the command line rarely or at all, to me it's the most efficient way to accomplish most tasks because of the way it facilitates automation. Because any suite of actions can be composed into a larger script, which can be written to be adapt to different contexts, you can work so much more efficiently if you can frame your tasks into commands.
+						What did I create eq? I knew that openEQUELLA had comprehensive APIs but needed an excuse to dive deep into them. I also wanted to learn more about node.js and writing a command-line tool, since those were skills I was certain I wanted to learn. Finally, I just really love spending time reading green font on a black background and I'd love to interact with our digital archive from the terminal.
+
+						That isn't a trite observation about the command-line; while I'm certain there are good systems people who use the command line rarely or at all, to me it's the most efficient way to accomplish most tasks because of the way it facilitates automation. Because any suite of actions can be composed into a larger script, which can be written to be adapt to different contexts, you can work so much more efficiently if you can frame your tasks into commands.
 					</aside>
 				</section>
 
@@ -138,10 +140,28 @@
 
 				<section>
 					<h1>Example: course list taxonomies</h1>
+					<p>We have a huge <a href="https://github.com/cca/libraries_course_lists">course lists project</a> which converts course information into a series of departmental taxonomies, turning them into vocabularly lists and a hierarchal course structure that our users can browse when contributing items.</p>
+				</section>
+
+				<section>
+					<h1>course list taxonomies pt. II</h1>
+					<p><code>eq</code> finds our taxonomy UUIDs, using a consistent naming convention to look them up</p>
+					<pre><code data-trim>
+						for dept in $depts
+						    set tax "$dept - COURSE LIST"
+						    set uuid (eq tax --name $tax | jq -r '.uuid')
+						    if [ $uuid ]
+						        uptaxo --tid $uuid --csv \
+									data/$dept-course-list-taxo.csv
+						    end
+						end
+					</code></pre>
 				</section>
 
 				<section>
 					<h1>Example: ad hoc discovery</h1>
+
+					<!-- @TODO write this example, if needed -->
 				</section>
 
 				<section>
