@@ -1,3 +1,7 @@
 .reveal p {
     text-align: left;
 }
+
+.reveal cite {
+    font-style: italic;
+}

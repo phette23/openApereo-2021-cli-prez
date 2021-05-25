@@ -51,6 +51,18 @@
 
 				<section>
 					<h1>First, an example</h1>
+					<p>This prints the title and URL of the first item contributed by the internal user "audrelorde".</p>
+					<pre><code data-trim>
+						$ eq search --order=date --reverse --owner \
+						> (eq user --name 'audrelorde' | jq -r .id) \
+						> | jq '.results[0] | .name, .links.view'
+					</code></pre>
+
+					<aside class="notes">
+						Here is a relatively simple example that nonetheless will demonstrate several things about `eq`. This command prints the title and URL of the very first thing contributed by the internal user "audrelorde".
+
+						Let's step through each portion of the command. First of all, we use the "search" API route which lets us search for and filter through lists of contributed items. We are using three different flags to modify our search: we want to order results by date last modified, we want to reverse the order of the results so the oldest items come first, and we want to limit results to items owned by "audrelorde". Because "audrelorder" is an internal user, however, we need to use a UUID here and not a username, so we execute a sub-command also using the "user" API route to find the UUID of the user with this username. You can see, for the output of both the search and user API calls, we are using a UNIX JSON utility "jq" to parse them and inspect just the properties we are interested in.
+					</aside>
 				</section>
 
 				<section>
@@ -70,12 +82,14 @@
 				<section>
 					<h1>Text is the universal interface</h1>
 
+					<p><cite><a href="https://homepage.cs.uri.edu/~thenry/resources/unix_art/ch01s06.html">Basics of the Unix Philosophy</a></cite> by Eric Steven Raymond.</p>
+
 					<aside class="notes">
-						Elaborating on that last point, one of the beautiful things of the command-line to me that you can stitch together complicated routines from a series of relatively simple pieces of software. `eq` is a good example of one of these pieces of software, as fundamentally it does very little: it abstracts over the REST APIs a little bit and pretty prints the JSON you receive back from them. It is nothing more than syntactic sugar.
+						Elaborating on that last point, one of the beautiful things of the command-line is that you can stitch together complicated routines from a series of relatively simple pieces of software. `eq` is a good example of one of these pieces of software, as fundamentally it does very little: it abstracts over the REST APIs a little bit and pretty prints the JSON you receive back from them so it's easier to read. It is nothing more than syntactic sugar.
 
-						...ramble about UNIX philosophy here...
+						Consider our initial example: because jq is turning openEQUELLA API calls into text that can be passed around, it can integrate with other CLI tools. In this example, it's integrated _with itself_ essentially: the output of the user API data is used again in the search API call. This sort of composability is the power of the command line and, more broadly, the UNIX philosophy of computing.
 
-						The CLI is littered with wonderful tools that adhere to another component of the UNIX philosophy, "do one thing and do it well."
+						The CLI is littered with wonderful tools that adhere to another component of the UNIX philosophy, "do one thing and do it well." That's the goal of eq, to be a proxy for the openEQUELLA APIs and make their text output pluggable into other programs.
 					</aside>
 				</section>
 
@@ -87,10 +101,28 @@
 						<li>Already support third-party tools (EBI)</li>
 						<li>Great documentation & built-in testing at apidocs.do</li>
 					</ul>
+
+					<aside class="notes">
+						The openEQUELLA APIs are very strong. There is an API route for almost everything and you can perform a great number of tasks easily through the APIs. It's notable that there are already a few major tools that use the openEQUELLA APIs. I believe these both use the SOAP API, but here at CCA we make extensive use of the Python SOAP API toolkit to create taxonomies and also of the EBI "EQUELLA Bulk Importer" app to import large numbers of items at once using spreadsheet data.
+
+						What I love most about the APIs, and what's made creating a tool like eq possible, is the API documentation. It's not only detailed but contains a built-in testing interface. You can practice calls to the API and learn about each route's different options. For instance, when I fleshed out the CLI for the search API route it was vital to see the full list of filtering options like "owner", "order", and "reverse".
+					</aside>
 				</section>
 
 				<section>
 					<h1><code>eq</code> & <code>jq</code>, best friends for life</h1>
+					<pre><code data-trim>
+						$ # syntax-highlighting for item JSON data
+						$ eq item a7edaf1b-f853-4b6d-b8a6-e402f0fd2f58 | jq
+						$ # open 10 most recent items in your web browser
+						$ eq search | jq '.results[].links.view' | xargs open
+					</code></pre>
+
+					<aside class="notes">
+						eq almost always prints raw JSON output to the terminal. While it's pretty printed so it's easier to read, it's still hard to use JSON in many circumstances. Most utilities want simple text or URLs to work with. That's why jq is so essential, it acts as a translator taking the openEQUELLA JSON and turning it into more specific, usable pieces of text.
+
+						Here are two simple examples. In the first one, I find the JSON output of an item but jq helps to syntax highlight the detailed output. In the second, I use jq as a bridge from openEQUELLA search results to open those results in my web browser with the "open" command.
+					</aside>
 				</section>
 
 				<section>
