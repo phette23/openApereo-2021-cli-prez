@@ -111,6 +111,7 @@
 
 				<section>
 					<h1><code>eq</code> & <code>jq</code>, best friends for life</h1>
+
 					<pre><code data-trim>
 						$ # syntax-highlighting for item JSON data
 						$ eq item a7edaf1b-f853-4b6d-b8a6-e402f0fd2f58 | jq
@@ -129,6 +130,10 @@
 					<h1><code>fx</code> is great too</h1>
 
 					<!-- @TODO record a GIF of this in action? -->
+
+					<aside class="notes">
+						For the use case of merely inspecting JSON data, `fx` is perhaps an even better tool. `fx` is another npm package which not only syntax highlights the JSON you pipe to it but also collapses large objects to make data more readable. You can interactively browse through a large, nested data set, opening up object details by clicking their ellipsis. This is great for exploring some of the more detailed API output, like the items route, for instance.
+					</aside>
 				</section>
 
 				<section>
@@ -178,9 +183,9 @@ $ eq apidocs # open the API documentation
 					<h1>Limitations, warnings</h1>
 
 					<ul>
-						<li>I'm writing tests but there are few right now</li>
-						<li>Never locks resources before modification (but you could manually)</li>
-						<li>Unable to download complete items</li>
+						<li>There are few tests but I'm writing more</li>
+						<li>Does not lock resources before modification (but you could manually)</li>
+						<li>Unable to download items complete with files</li>
 						<li>Rare blind spots in the APIs, many more in <code>eq</code></li>
 					</ul>
 				</section>
