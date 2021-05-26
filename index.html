@@ -28,7 +28,7 @@
 					<h1>About CCA</h1>
 
 					<ul>
-						<li>Small (≈1800 FTE) art & design schoool in the California Bay Area</li>
+						<li>Small (≈1800 FTE) art & design school in the California Bay Area</li>
 						<li>Located on <a href="https://www.cca.edu/about/indigenous-land-acknowledgement/">the unceded territories of Chochenyo and Ramaytush Ohlone peoples</a></li>
 						<li>Long-time (since 2012) EQUELLA users, instance contains over 75,000 items representing everything from student art works to syllabi to archival documents</li>
 					</ul>
@@ -61,7 +61,7 @@
 					<aside class="notes">
 						Here is a relatively simple example that nonetheless will demonstrate several things about `eq`. This command prints the title and URL of the very first thing contributed by the internal user "audrelorde".
 
-						Let's step through each portion of the command. First of all, we use the "search" API route which lets us search for and filter through lists of contributed items. We are using three different flags to modify our search: we want to order results by date last modified, we want to reverse the order of the results so the oldest items come first, and we want to limit results to items owned by "audrelorde". Because "audrelorder" is an internal user, however, we need to use a UUID here and not a username, so we execute a sub-command also using the "user" API route to find the UUID of the user with this username. You can see, for the output of both the search and user API calls, we are using a UNIX JSON utility "jq" to parse them and inspect just the properties we are interested in.
+						Let's step through each portion of the command. First of all, we use the "search" API route which lets us search for and filter through lists of contributed items. We are using three different flags to modify our search: we want to order results by date last modified, we want to reverse the order of the results so the oldest items come first, and we want to limit results to items owned by "audrelorde". Because "audrelorder" is an internal user, however, we need to use a UUID here and not a username, so we execute a sub-command also using the "user" API route to find the UUID of the user with this username. You can see, for the output of both the search and user API calls, we are using a UNIX JSON utility "jq" to parse them and inspect the properties we are interested in.
 					</aside>
 				</section>
 
@@ -77,7 +77,7 @@
 					<aside class="notes">
 						What did I create eq? I knew that openEQUELLA had comprehensive APIs but needed an excuse to dive deep into them. I also wanted to learn more about node.js and writing a command-line tool, since those were skills I was certain I wanted to learn. Finally, I just really love spending time reading green font on a black background and I'd love to interact with our digital archive from the terminal.
 
-						That isn't a trite observation about the command-line; while I'm certain there are good systems people who use the command line rarely or at all, to me it's the most efficient way to accomplish most tasks because of the way it facilitates automation. Because any suite of actions can be composed into a larger script, which can be written to be adapt to different contexts, you can work so much more efficiently if you can frame your tasks into commands.
+						That isn't a trite observation about the command-line; while I'm certain there are good systems people who use the command line rarely or not at all, to me it's the most efficient way to accomplish most tasks because of the way it facilitates automation. Because any suite of actions can be composed into a larger script, which can be written to be adapt to different contexts, you can work so much more efficiently if you can frame your tasks into commands.
 					</aside>
 				</section>
 
@@ -89,7 +89,7 @@
 					<aside class="notes">
 						Elaborating on that last point, one of the beautiful things of the command-line is that you can stitch together complicated routines from a series of relatively simple pieces of software. `eq` is a good example of one of these pieces of software, as fundamentally it does very little: it abstracts over the REST APIs a little bit and pretty prints the JSON you receive back from them so it's easier to read. It is nothing more than syntactic sugar.
 
-						Consider our initial example: because jq is turning openEQUELLA API calls into text that can be passed around, it can integrate with other CLI tools. In this example, it's integrated _with itself_ essentially: the output of the user API data is used again in the search API call. This sort of composability is the power of the command line and, more broadly, the UNIX philosophy of computing.
+						Consider our initial example: because eq is turning openEQUELLA API calls into text that can be passed around, it can integrate with other CLI tools. In this example, it's integrated _with itself_ essentially: the output of the user API data is used again in the search API call. This sort of composability is the power of the command line and, more broadly, the UNIX philosophy of computing.
 
 						The CLI is littered with wonderful tools that adhere to another component of the UNIX philosophy, "do one thing and do it well." That's the goal of eq, to be a proxy for the openEQUELLA APIs and make their text output pluggable into other programs.
 					</aside>
@@ -105,7 +105,7 @@
 					</ul>
 
 					<aside class="notes">
-						The openEQUELLA APIs are very strong. There is an API route for almost everything and you can perform a great number of tasks easily through the APIs. It's notable that there are already a few major tools that use the openEQUELLA APIs. I believe these both use the SOAP API, but here at CCA we make extensive use of the Python SOAP API toolkit to create taxonomies and also of the EBI "EQUELLA Bulk Importer" app to import large numbers of items at once using spreadsheet data.
+						The openEQUELLA APIs are very strong. There is an API route for almost everything and you can perform a great number of tasks easily through the APIs. It's notable that there are already a few major tools that use the openEQUELLA APIs. I believe these both use the SOAP and not REST APIs, but here at CCA we make extensive use of the Python SOAP API toolkit to create taxonomies and also of the EBI "EQUELLA Bulk Importer" app to import large numbers of items at once using spreadsheet data.
 
 						What I love most about the APIs, and what's made creating a tool like eq possible, is the API documentation. It's not only detailed but contains a built-in testing interface. You can practice calls to the API and learn about each route's different options. For instance, when I fleshed out the CLI for the search API route it was vital to see the full list of filtering options like "owner", "order", and "reverse".
 					</aside>
@@ -182,9 +182,9 @@
 					<aside class="notes">
 We have very complex contribution forms which make it hard to fully troubleshoot every possible path through the form that end users might take. Item titles are also not always composed of the same elements, they might contain a work type, course title, creator name, or creator-provided title depending on a number of factors. Sometimes, a contribution goes through and ends up with no title so openEQUELLA shows the item's UUID as its title, which is an eyesore.
 
-openEQUELLA's Manage Resources tool is great at finding items that match particular metadata patterns and then modifying them, but it has a blind spot: you can test for the existence of a metadata node but not its nullity. There's no way to find items without titles. With the REST API, however, we can look at item JSON without a `name` property. This first line will look for items without names within the last fifty contributions. We can loop through items 50 at a time to search our whole instance; the expanded code below checks the last thousand contributions and prints the UUIDs of items without titles.
+openEQUELLA's Manage Resources tool is great at finding items that match particular metadata patterns and then modifying them, but it has a blind spot: you can test for the existence of a metadata node but not its nullity. There's no way to find items without titles. With the REST API, however, we can look for items whose JSON data lacks a `name` property. This first line will look for items without names within the last fifty contributions. We can loop through items 50 at a time to search our whole instance; the expanded code below checks the last thousand contributions and prints the UUIDs of items without titles.
 
-There is probably a more elegant way to do this but I think it demonstrates how stitching together eq. jq, and existing command-line tools can help with management.
+There is probably a more elegant way to do this but I think it demonstrates how stitching together `eq`, `jq`, and existing command-line tools can help with management.
 					</aside>
 				</section>
 
