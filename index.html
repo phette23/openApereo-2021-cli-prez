@@ -96,7 +96,7 @@
 				</section>
 
 				<section>
-					<h1>The openEQUELLA APIs</h1>
+					<h1>openEQUELLA APIs</h1>
 
 					<ul>
 						<li>Comprehensive, you can do almost anything</li>
@@ -129,12 +129,14 @@
 				</section>
 
 				<section>
-					<h1><code>fx</code> is great too</h1>
+					<h1><code>fx</code> is great, too</h1>
 
-					<!-- @TODO record a GIF of this in action? -->
+					<pre><code>eq item $UUID | fx</code></pre>
+
+					<img src="img/fx.png" alt="fx showing JSON for an item with one attachment's properties shown and another's collapsed">
 
 					<aside class="notes">
-						For the use case of merely inspecting JSON data, `fx` is perhaps an even better tool. `fx` is another npm package which not only syntax highlights the JSON you pipe to it but also collapses large objects to make data more readable. You can interactively browse through a large, nested data set, opening up object details by clicking their ellipsis. This is great for exploring some of the more detailed API output, like the items route, for instance.
+						For the use case of merely inspecting JSON data, `fx` is perhaps an even better tool. `fx` is another npm package which not only syntax highlights the JSON you pipe to it but also collapses large objects to make data more readable. You can interactively browse through a large, nested data set, opening up object details by clicking their ellipsis. This is great for exploring some of the more detailed API output, like the items route, for instance. I haven't used `fx` as much as `jq` but it has similar filtering functionality, too.
 					</aside>
 				</section>
 
@@ -167,9 +169,10 @@
 				<section>
 					<h1>Example: items without titles</h1>
 
-					<pre><code data-trim>eq search -l 50 | jq '.results[] | (.links.view, .name)' | ack '^null$' -A 1</code></pre>
+					<pre><code data-trim>eq search -l 50 | jq '.results[] | (.links.view, .name)' \
+| ack '^null$' -A 1</code></pre>
 
-					<p>Above: last 50 items. Below: last 1,000 items.</p>
+					<p>Above: last 50 items. Below: loop for last 1,000 items.</p>
 
 					<pre><code data-trim>
 						$ for $IDX in (seq 0 19)
@@ -200,7 +203,7 @@ $ eq apidocs # open the API documentation
 				</section>
 
 				<section>
-					<h1>Limitations, warnings</h1>
+					<h1>Limitations & warnings</h1>
 
 					<ul>
 						<li>There are few tests but I'm writing more</li>
